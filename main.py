@@ -2,27 +2,52 @@ import extensions
 import os
 import shutil
 import pyfiglet
+import sys
 
+def files_without_extension():
+
+    files_without_extension = []
+
+    for file in files:
+
+        files_without_extension.append(file.split(".")[0])
+
+    print(f"all files inside {os.getcwd()} are:-\n{files_without_extension}")
 
 def show_all_folders():
 
-    print(folders)
+    print(f"all folders inside {os.getcwd()} are:-\n{folders}")
     main_menu_options()
 
 
 def show_all_files():
 
-    files_without_extension = []
-    for file in files:
-
-        files_without_extension.append(file.split(".")[0])
-
-    print(files_without_extension)
+    files_without_extension()
     main_menu_options()
 
 
 
 def organize_files(current_working_dir):
+
+    files_without_extension()
+
+    while True:
+
+        try:
+
+            answer_to_start_organize = input("you want to continue (Yes => Y, No => N)\n").lower()
+
+            if answer_to_start_organize in ["yes","y"]:
+
+                break
+
+            else:
+
+                main_menu_options(os.getcwd())
+
+        except Exception:
+
+            print("invalid input")
 
     for file in files:
   
@@ -44,17 +69,22 @@ def organize_files(current_working_dir):
 
 def enter_folder(current_working_dir):
 
-    c = {}
+    folders_inside_the_dir_you_want_to_enter = {}
     for index, folder in enumerate(folders, 1):
 
-        c[index] = folder 
+        folders_inside_the_dir_you_want_to_enter[index] = folder 
 
-    print(f"all folders inside the directory{c}")
+    print(f"all folders inside the directory{folders_inside_the_dir_you_want_to_enter}")
+
     folder_number = int(input("enter the number of folder:\n"))
-    os.chdir(os.path.join(current_working_dir, c[folder_number]))
-    print(f"the current working dir is {os.path.join(
-        current_working_dir, c[folder_number])}")
-    spliter(os.path.join(current_working_dir, c[folder_number]))
+
+    new_dir = os.path.join(current_working_dir, folders_inside_the_dir_you_want_to_enter[folder_number])
+
+    os.chdir(new_dir)
+
+    print(f"the current working dir is {new_dir}")
+    
+    spliter(new_dir)
 
 def exit_program():
 
@@ -62,7 +92,7 @@ def exit_program():
 """thank you for using my program =>> (:
 The program has closed."""
 )
-    return 0
+    sys.exit()
 
 #this is the actions that are montioned in the main menu ==>
 actions = {
@@ -107,28 +137,83 @@ def spliter(current_working_dir):
 
     files = [list_of_dirs_and_files for list_of_dirs_and_files in list_of_dirs_and_files
             if os.path.isfile(list_of_dirs_and_files)]
-    main_menu_options(current_working_dir)
+
+    
+    if not bool(files):
+
+        print("there are no files in this directory")
+
+        while True:
+            try:
+
+                if bool(folders):
+
+                    exit_return_or_chdir_dict = {
+                                        2 : exit_program,
+                                        3 : lambda: enter_folder(current_working_dir),
+                                        1 : None
+                                        }   
+                                 
+                    exit_or_return  = int(input("do you want to come back or enter folder inside this directory"
+                                            " or exit program (1 => return, 2 => exit, 3 => enter_folder)\n"))
+
+                    if exit_or_return not in exit_return_or_chdir_dict:
+
+                        print(1/0)
+
+                    if exit_or_return in [2,3]:
+
+                        exit_return_or_chdir_dict[exit_or_return]()
+                        
+                    if exit_or_return == 1:
+
+                        os.chdir(os.path.dirname(current_working_dir))
+                        print(f"current working directory if {os.getcwd()}")
+                        spliter(os.getcwd())
+
+                else:
+
+                    exit_or_return  = int(input("do you want to come back"
+                                            " or exit program (1 => return, 2 => exit)"))
+                    
+                    if exit_or_return == 2:
+
+                        exit_return_or_chdir_dict[exit_or_return]()
+
+                    if exit_or_return == 1:
+
+                        os.chdir(os.path.dirname(current_working_dir))
+                        print(f"current working directory if {os.getcwd()}")
+                        spliter(os.getcwd())
+
+            except ValueError :
+
+                print("input must be number only")
+
+            except Exception:
+
+                print("this option doesn't exit")
+    
+    main_menu_options(os.getcwd())
 
 def main_menu_options(current_working_dir):
 
 
-
-
     try:
         print("""
-====================================================
-                                                |
-[1] Show All Folders In Current Directory          |
-                                                |
-[2] Show All Files In Current Directory            |
-                                                |
-[3] Organize Files Into Organized Folder           |
-                                                |
-[4] Enter One Of The Existing Folders              |
-                                                |
-[0] Exit                                           |
-                                                |
-====================================================
+========================================================
+                                                       |
+[1] Show All Folders In Current Directory              |
+                                                       |
+[2] Show All Files In Current Directory                |
+                                                       |
+[3] Show Files and organize them Into Organized Folder |
+                                                       |
+[4] Enter One Of The Existing Folders                  |
+                                                       |
+[0] Exit                                               |
+                                                       |
+========================================================
 """)
         answer_main_menu = int(input("just choose only one option, select numper and write it\n"))
 
@@ -150,9 +235,9 @@ def main_menu_options(current_working_dir):
             print(1/0)
 
 
-    except:
+    except Exception:
 
-        main_menu_options(current_working_dir)
+        main_menu_options(os.getcwd())
 
     
 
@@ -166,7 +251,7 @@ while True:
         os.chdir(current_working_dir)
         break
 
-    except:
+    except Exception:
         print("invalid input")
 
 
