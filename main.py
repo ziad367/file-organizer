@@ -163,7 +163,7 @@ def enter_folder():
         except:
 
             print("invalid error")
-    ء
+   
     new_dir = os.path.join(os.getcwd(), folders_inside_the_dir_you_want_to_enter[folder_number])
 
     os.chdir(new_dir)
