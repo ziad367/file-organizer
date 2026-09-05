@@ -12,11 +12,11 @@ def files_without_extension():
 
         files_without_extension.append(os.path.splitext(file)[0])
 
-    print(f"all files inside {os.getcwd()} are:-\n{files_without_extension}")
+    print(f"all files inside {os.getcwd()} are:-\n{files_without_extension}\n")
 
 def show_all_folders():
 
-    print(f"all folders inside {os.getcwd()} are:-\n{folders}")
+    print(f"all folders inside {os.getcwd()} are:-\n{folders}\n")
         
 
 
@@ -39,7 +39,7 @@ def file_organizer():
 
             elif answer_to_start_organize in ["No","n"]:
 
-                return
+                return 
 
         except Exception:
 
@@ -109,13 +109,14 @@ def file_organizer():
 
                     break
                 elif answer_to_know_if_you_want_to_put_in_the_same_folder_or_no in ["yes","y"]:
- 
+
                         for file in file_names:
 
                             if file in os.listdir(os.path.join(os.getcwd(), cat_name)):
 
                                 destination_folder = os.path.join(os.getcwd(), cat_name)
-                                shutil.move(file, os.path.join(destination_folder, f"{file} (fo)"))
+                                shutil.move(file, os.path.join(destination_folder, f"{file} (fo){os.path.splitext(file)[1]}"))
+                                
 
                             else:
 
@@ -135,6 +136,7 @@ def file_organizer():
 
                     os.makedirs(os.path.join(os.getcwd(), cat_name), exist_ok=True)
                     shutil.move(file, os.path.join(os.getcwd(), cat_name))
+    spliter()
         
 def enter_folder():
 
@@ -161,7 +163,7 @@ def enter_folder():
         except:
 
             print("invalid error")
-    
+    ء
     new_dir = os.path.join(os.getcwd(), folders_inside_the_dir_you_want_to_enter[folder_number])
 
     os.chdir(new_dir)
@@ -249,7 +251,7 @@ def spliter():
 
                         if exit_or_return not in exit_return_or_chdir_dict:
 
-                            raise ValueError("Invalid option selected")
+                            raise ValueError
 
                         if exit_or_return in [2,3]:
 
@@ -281,7 +283,7 @@ def spliter():
 
                 except ValueError :
 
-                    print("input must be number only")
+                    print("\ninput must be number only and 1, 2, or 3 if you can enter a folder and 1,2 if there is no folders in that directory\n")
 
                 except Exception:
 
