@@ -135,14 +135,6 @@ def file_organizer():
 
                     os.makedirs(os.path.join(os.getcwd(), cat_name), exist_ok=True)
                     shutil.move(file, os.path.join(os.getcwd(), cat_name))
-                
-
-                
-
-
-
-
-
         
 def enter_folder():
 
@@ -186,12 +178,19 @@ The program has closed."""
 )
     sys.exit()
 
+def returnn():
+
+    os.chdir(os.path.dirname(os.getcwd()))
+    print(f"your current working dir is: {os.getcwd()}")
+    spliter()
+
 #this is the actions that are montioned in the main menu ==>
 actions = {
     1:show_all_folders,
     2:files_without_extension,
     3:file_organizer,
     4:enter_folder,
+    5:returnn,
     0:exit_program
 }
            
@@ -210,7 +209,7 @@ def main_menu_banner():
             row += 1
 
 
-def spliter():
+def spliter(): 
 
     while True:
 
@@ -308,6 +307,8 @@ def main_menu_options():
 [3] Show Files and organize them Into Organized Folder     |
                                                            |
 [4] Enter One Of The Existing Folders                      |
+                                                           |   
+[5] return back                                            |
                                                            |
 [0] Exit                                                   |
                                                            |
@@ -317,7 +318,7 @@ def main_menu_options():
 
             
 
-            if answer_main_menu in [0,1,2,3,4]:
+            if answer_main_menu in [0,1,2,3,5,4]:
 
                 actions[answer_main_menu]()
 
@@ -348,6 +349,4 @@ while True:
 
 main_menu_banner()
 spliter()
-
-
 
